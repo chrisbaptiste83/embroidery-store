@@ -1,8 +1,53 @@
-id,name,price,image,description,category
-1,Floral Mandala,4.99,floral-mandala.jpg,A symmetrical floral mandala pattern for 5x5 hoops.,Floral
-2,Cute Fox,3.99,cute-fox.jpg,A playful fox face perfect for children's clothing.,Animals
-3,Sunflower Patch,4.25,sunflower-patch.jpg,Bright sunflower cluster ideal for tote bags.,Floral
-4,Lunar Moth,5.49,lunar-moth.jpg,An elegant moth with crescent moons and stars.,Celestial
-5,Rose Heart,3.75,rose-heart.jpg,A romantic heart of blooming roses.,Romantic
-6,Boho Arrows,4.10,boho-arrows.jpg,Geometric boho-style arrows for modern embroidery.,Boho
+// Embedded product data from CSV
+const products = [
+  {
+    id: 1,
+    name: "Floral Mandala",
+    price: 4.99,
+    image: "floral-mandala.jpg",
+    description: "A symmetrical floral mandala pattern for 5x5 hoops.",
+    category: "Floral"
+  },
+  {
+    id: 2,
+    name: "Cute Fox",
+    price: 3.99,
+    image: "cute-fox.jpg",
+    description: "A playful fox face perfect for children's clothing.",
+    category: "Animals"
+  },
+  {
+    id: 3,
+    name: "Sunflower Patch",
+    price: 4.25,
+    image: "sunflower-patch.jpg",
+    description: "Bright sunflower cluster ideal for tote bags.",
+    category: "Floral"
+  },
+  {
+    id: 4,
+    name: "Lunar Moth",
+    price: 5.49,
+    image: "lunar-moth.jpg",
+    description: "An elegant moth with crescent moons and stars.",
+    category: "Celestial"
+  },
+  {
+    id: 5,
+    name: "Rose Heart",
+    price: 3.75,
+    image: "rose-heart.jpg",
+    description: "A romantic heart of blooming roses.",
+    category: "Romantic"
+  },
+  {
+    id: 6,
+    name: "Boho Arrows",
+    price: 4.10,
+    image: "boho-arrows.jpg",
+    description: "Geometric boho-style arrows for modern embroidery.",
+    category: "Boho"
+  }
+];
+
 

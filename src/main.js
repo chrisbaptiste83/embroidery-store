@@ -10,7 +10,6 @@ import { loadProducts } from './components/Dashboard.js';
 const app = document.getElementById('app');
 const navbar = document.getElementById('navbar');
 
-// Always render navbar once
 navbar.innerHTML = Navbar();
 
 function navigateTo(page) {
@@ -39,7 +38,6 @@ function navigateTo(page) {
   }
 }
 
-// Listen for clicks on links with [data-page]
 document.addEventListener('click', (event) => {
   const target = event.target.closest('[data-page]');
   if (!target) return;
@@ -49,6 +47,5 @@ document.addEventListener('click', (event) => {
   navigateTo(page);
 });
 
-// Load the initial page on first load
 navigateTo('home');
 
