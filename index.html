@@ -1,112 +1,145 @@
-
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Embroidery Files Shop</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-    
-    <style>
-        .nav-loading {
-            opacity: 0.5;
-            pointer-events: none;
-        }
-        .nav-active {
-            color: #4F46E5;
-            font-weight: 600;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Home - Embroidery Shop</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.4/dist/full.css" rel="stylesheet" type="text/css" />
+  <style>
+    /* Custom styling for carousel */
+    .carousel {
+      height: 350px; /* Adjusted to accommodate card height */
+    }
+    .carousel-item {
+      height: 350px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .carousel-card {
+      width: 80%; /* Limit width to create card effect */
+      max-width: 300px; /* Match typical card width */
+      height: 300px; /* Fixed height for consistency */
+      background-color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Card-like shadow */
+      border: 1px solid #e2e8f0; /* Subtle border */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      margin: 0 auto; /* Center the card */
+    }
+    .carousel-image {
+      height: 180px; /* Reduced height for compact look */
+      width: 100%;
+      object-fit: contain; /* Maintain aspect ratio */
+      object-position: center; /* Center the image */
+      filter: contrast(1.2); /* Enhance contrast */
+      background-color: #f8f8f8; /* Light background for transparency */
+      border-radius: 0.25rem; /* Subtle rounded corners */
+      margin-bottom: 0.5rem; /* Space between image and title */
+    }
+    .carousel-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-align: center;
+      color: #4f46e5; /* Indigo to match theme */
+      margin-top: 0.5rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%; /* Limit title width */
+    }
+  </style>
 </head>
-<body class="bg-gray-50 min-h-screen px-4 py-6 flex flex-col items-center">
-    <nav class="w-full max-w-6xl mx-auto mb-8 px-4">
-        <div class="flex flex-wrap items-center justify-between py-4 border-b border-gray-300">
-            <h1 class="text-3xl font-bold text-indigo-700">Embroidery Shop</h1>
-            <div class="flex flex-wrap gap-6 items-center text-sm font-medium text-indigo-700">
-                <a href="index.html" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Home</a>
-                <div id="category-links" class="flex gap-4 flex-wrap items-center text-sm font-medium text-indigo-700">
-                </div>
-                <a href="profile.html" id="profile-link" class="hidden hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">
-                    <span class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-                        </svg>
-                        Profile
-                    </span>
-                </a>
-                <span id="user-email-display" class="hidden text-sm text-gray-600"></span>
-                <a href="login.html" id="login-link" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Login</a>
-                <a href="signup.html" id="signup-link" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Sign Up</a>
-                <button id="cart-btn" class="relative ml-4" aria-label="Toggle shopping cart">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8 text-indigo-700 hover:text-indigo-900 transition">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2m.6 3h13.4l-1.6 8H7.2l-1.6-8zm0 0L5.2 5H19m-9 12a1 1 0 100 2 1 1 0 000-2zm6 0a1 1 0 100 2 1 1 0 000-2z" />
-                    </svg>
-                    <span id="cart-count" class="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full px-1.5 py-0.5 hidden">0</span>
-                </button>
-            </div>
+<body class="bg-gray-50 min-h-screen flex flex-col p-6">
+  <nav class="w-full max-w-6xl mx-auto mb-8 px-4">
+    <div class="flex flex-wrap items-center justify-between py-4 border-b border-gray-300">
+      <h1 class="text-3xl font-bold text-indigo-700">Embroidery Shop</h1>
+      <div class="flex flex-wrap gap-6 items-center text-sm font-medium text-indigo-700">
+        <a href="index.html" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Home</a>
+        <div id="category-links" class="flex gap-4 flex-wrap items-center text-sm font-medium text-indigo-700"></div>
+        <a id="login-link" href="login.html" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Login</a>
+        <a id="profile-link" href="profile.html" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition hidden">Profile</a>
+        <a id="signup-link" href="signup.html" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Sign Up</a>
+        <a href="checkout.html" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Checkout</a>
+        <span id="user-email-display" class="text-sm text-indigo-700 hidden"></span>
+        <button id="cart-button" class="relative ml-4" aria-label="Toggle shopping cart">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8 text-indigo-700 hover:text-indigo-900 transition">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2m.6 3h13.4l-1.6 8H7.2l-1.6-8zm0 0L5.2 5H19m-9 12a1 1 0 100 2 1 1 0 000-2zm6 0a1 1 0 100 2 1 1 0 000-2z" />
+          </svg>
+          <span id="cart-count" class="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full px-1.5 py-0.5 hidden">0</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-6xl w-full mx-auto bg-white p-8 rounded-lg shadow-md">
+    <h1 class="text-3xl font-bold mb-6 text-indigo-700 text-center">Welcome to Embroidery Shop</h1>
+    
+    <!-- DaisyUI Carousel for Featured Products -->
+    <div class="carousel w-full rounded-lg overflow-hidden mb-8">
+      <div id="slide1" class="carousel-item relative w-full">
+        <div class="carousel-card">
+          <img id="carousel-img-1"  class="carousel-image" alt="Featured Product 1" />
         </div>
-    </nav>
-
-    <section class="w-full max-w-6xl mb-10 p-8 bg-indigo-100 rounded-xl text-center">
-        <h1 class="text-4xl font-extrabold text-indigo-800 mb-4">Welcome to the Embroidery Files Shop</h1>
-        <p class="text-indigo-700 mb-6 max-w-xl mx-auto">Discover unique and beautiful embroidery designs ready for download. Browse our curated collection and bring your creative projects to life.</p>
-        <a href="#product-list" class="inline-block bg-indigo-700 text-white px-6 py-3 rounded-full font-semibold hover:bg-indigo-800 transition">Browse Products</a>
-    </section>
-
-    <main class="w-full max-w-6xl">
-        <section id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            <p class="text-gray-500 text-center col-span-full" id="loading-products">Loading products...</p>
-            <!-- Products injected here -->
-        </section>
-    </main>
-
-    <div id="modal-backdrop" class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm hidden z-40"></div>
-    <dialog id="product-modal" class="modal z-50">
-        <form method="dialog" class="modal-box max-w-3xl w-[90vw] p-8 rounded-2xl bg-white/90 backdrop-blur-md shadow-xl">
-            <h3 id="modal-title" class="text-3xl font-extrabold mb-4 text-center text-gray-900"></h3>
-            <img id="modal-image" class="w-full max-h-72 object-contain rounded-lg mb-6 shadow" alt="Product Image" />
-            <p id="modal-description" class="text-gray-700 text-base mb-2 text-center leading-relaxed"></p>
-            <p id="modal-price" class="text-xl font-semibold text-center text-indigo-700 mb-4"></p>
-            <div class="mb-6 flex justify-center">
-                <label class="form-control w-28">
-                    <span class="text-sm font-medium text-gray-700 mb-1">Quantity</span>
-                    <input type="number" id="quantity" class="input input-bordered input-sm w-full text-center" min="1" value="1" />
-                </label>
-            </div>
-            <div class="modal-action flex justify-center gap-4">
-                <button type="submit" class="btn bg-indigo-600 text-white px-6 py-2 rounded-lg text-base hover:bg-indigo-700 hover:scale-105 transition-transform shadow-md">Add to Cart</button>
-                <button type="button" id="modal-cancel" class="btn bg-white/50 text-gray-800 border border-gray-300 px-6 py-2 rounded-lg hover:bg-white hover:text-indigo-700 transition-colors shadow-sm">Cancel</button>
-            </div>
-        </form>
-    </dialog>
-
-    <div id="cart-panel" class="fixed right-0 top-0 h-full w-80 bg-white shadow-lg p-6 z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
-        <h2 class="text-xl font-bold mb-4">Your Cart</h2>
-        <div id="cart-items" class="flex-grow overflow-auto">
-            <p class="text-gray-500">Cart is currently empty.</p>
+        <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+          <a href="#slide3" class="btn btn-circle">❮</a> 
+          <a href="#slide2" class="btn btn-circle">❯</a>
         </div>
-        <button id="go-to-checkout" class="mt-6 w-full bg-indigo-600 text-white py-3 rounded-full">Go to Checkout</button>
+      </div> 
+      <div id="slide2" class="carousel-item relative w-full">
+        <div class="carousel-card">
+          <img id="carousel-img-2" class="carousel-image" alt="Featured Product 2" />
+        </div>
+        <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+          <a href="#slide1" class="btn btn-circle">❮</a> 
+          <a href="#slide3" class="btn btn-circle">❯</a>
+        </div>
+      </div> 
+      <div id="slide3" class="carousel-item relative w-full">
+        <div class="carousel-card">
+          <img id="carousel-img-3"  class="carousel-image" alt="Featured Product 3" />
+        </div>
+        <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+          <a href="#slide2" class="btn btn-circle">❮</a> 
+          <a href="#slide1" class="btn btn-circle">❯</a>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-center w-full py-2 gap-2 mb-8">
+      <a href="#slide1" class="btn btn-xs">1</a> 
+      <a href="#slide2" class="btn btn-xs">2</a> 
+      <a href="#slide3" class="btn btn-xs">3</a>
     </div>
 
-      <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyBPd56QvMuGZ2AE-f5F48sZvrLDZXUOUxo",
-            authDomain: "embroidery-file-store.firebaseapp.com",
-            projectId: "embroidery-file-store",
-            storageBucket: "embroidery-file-store.firebasestorage.app",
-            messagingSenderId: "963443165128",
-            appId: "1:963443165128:web:dcb602d47f3dc884a7a2fd",
-            measurementId: "G-68CQ7R285V"
-        };
+    <!-- Product List -->
+    <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <p id="loading-products" class="text-gray-500 text-center col-span-full">Loading products...</p>
+    </div>
+  </div>
 
-        firebase.initializeApp(firebaseConfig);
-    </script>
+  <!-- Product Modal -->
+  <dialog id="product-modal" class="p-6 rounded-lg shadow-lg max-w-2xl w-full">
+    <form>
+      <h2 id="modal-title" class="text-2xl font-bold mb-4 text-indigo-700"></h2>
+      <img id="modal-image" class="w-full h-48 object-contain mb-4 rounded-lg" src="" alt="Product Image">
+      <p id="modal-price" class="text-indigo-600 font-bold text-lg mb-2"></p>
+      <p id="modal-description" class="mb-4 text-gray-600"></p>
+      <label for="quantity" class="block mb-2 font-semibold">Quantity:</label>
+      <input type="number" id="quantity" min="1" value="1" class="w-full p-2 border rounded mb-4">
+      <div class="flex gap-4 justify-end">
+        <button type="submit" class="bg-indigo-600 text-white py-2 px-4 rounded-full hover:bg-indigo-700">Add to Cart</button>
+        <button type="button" id="modal-cancel" class="bg-gray-300 text-gray-700 py-2 px-4 rounded-full hover:bg-gray-400">Cancel</button>
+      </div>
+    </form>
+  </dialog>
+  <div id="modal-backdrop" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50"></div>
 
-    <script type="module" src="/src/nav.js"></script>
-    <script type="module" src="/src/main.js"></script>
+  <!-- Import the script as a module -->
+  <script type="module" src="src/pages/index.js"></script>
 </body>
-</html></body>
 </html>
-
